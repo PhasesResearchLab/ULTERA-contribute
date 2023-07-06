@@ -1,9 +1,14 @@
+# This Dataset
+
+- _Your name, affiliation, and contact_
+- _Brief description_
+- _Anything else you like to say_
+
 # ULTERA Database
-A template repository for contributing to the [**ULTERA Database**](https://ultera.org) carried under the 
+This template repository was developed for contributing to the [**ULTERA Database**](https://ultera.org) carried under the 
 [**DOE ARPA-E ULTIMATE program**](https://arpa-e.energy.gov/?q=arpa-e-programs/ultimate) that
 aims to develop a new generation of materials for turbine blades in gas turbines and related
-applications. The [ULTERA Project](https://ultera.org), along is led by 
-[Phases Research Lab](https://phaseslab.com) at Penn State.
+applications. 
 
 The main scope of this dataset is collecting data on compositionally complex alloys (CCAs), also known as high entropy alloys (HEAs) and multi-principle-element alloys (MPEAs), with extra attention given to (1) high-temperature (refractory) mechanical data, (2) phases present under different processing conditions. Although low-entropy alloys (incl. binaries) are typically not presented to the end-user (or counted in statistics), some are present and used in ML efforts; thus **all high-quality alloy data contributions are welcome!**
 
