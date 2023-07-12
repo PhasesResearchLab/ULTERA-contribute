@@ -1,0 +1,29 @@
+Name:,Happy Researcher
+Email:,happy@psu.edu
+Direct Fetched:,T
+Hand Fetched:,T
+Comment:,None
+
+id/nickname,Composition,Structure,Processing,Material Comment,Name,Source,Property Parameters,Temperature [K],Value [SI],Uncertainty [SI],Unit [SI],Pointer,DOI
+1,Fe60 Ni20 Cr10 Zr10 ,BCC+FCC,HIP+A,annealed for 48h at 1600K,UTS,EXP,None,298.0,750000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+2,Fe60 Ni10 Cr20 Zr10,BCC+FCC,HIP+A,annealed for 48h at 1600K,UTS,EXP,None,298.0,650000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+3,Fe60 Ni10 Cr10 Zr20,3BCC+MC,HIP+A,annealed for 48h at 1600K,UTS,EXP,None,298.0,700000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+4,Fe25 Ni25 Cr25 Zr25,BCT+laves,HIP+A,annealed for 48h at 1600K,UTS,EXP,None,298.0,550000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+5,FeNiCrZr,BCC,AC,None,UTS,ML,UTS_Arindam_v0.7.4,298.0,580000000.0,None,Pa,T7,10.1557/jmr.2018.153
+6,Ti0.1 (ZrHfNb)0.3,FCC,AC,None,UTS,EMP,None,298.0,400000000.0,10000000.0,Pa,None,None
+7,Fe0.60 Ni0.10 Cr0.10 Zr0.20,BCC+2?,SPS,None,UTS,THM,None,298.0,670000000.0,50000000.0,Pa,F4,10.1557/jmr.2018.153
+8,FeNiCrZr,?,AC,cast from 2000K,CreepRate,ML,MaxStress 80e6 Pa,298.0,1.23e-06,1e-08,s-1,T1,Sun_2022_CreepRatePredictions
+9,W90 Mo5 Ti5,3?+laves,SPS,None,None,None,None,None,None,None,None,None,Lin_2023_SomeNicePaper
+10,HfMoNbZrTiCrAlW,BCC+?+?+?,SPS,None,None,None,None,None,None,None,None,None,Lin_2023_SomeNicePaper
+MPEA-1,CoCrFeNi,FCC,AC,all YS recorded as +1 MPa grain size:150-200micrometers,tensile ductility,EXP,None,298.0,48.0,None,None,None,10.1016/j.intermet.2015.01.004
+MPEA-2,CoCrFeNiMo0.2,FCC,A,None,tensile ductility,EXP,None,298.0,47.0,None,None,None,10.3390/e21050448
+MPEA-3,CoNiFe,FCC,CW+A,fixed elongation grain size:74micrometers,tensile ductility,EXP,None,298.0,47.0,None,None,None,10.1016/j.intermet.2019.106477
+MPEA-4,FeCrCoMnNi,FCC,CW + A, grain size:8micrometers,tensile ductility,EXP,None,298.0,47.0,None,None,None,10.1016/j.msea.2019.04.025
+MPEA-5,Co20.6Cr19.9Fe19.5Ni20.9Mn19.1,FCC,CW+A,fixed grain size; wrong unit grain size:17.1micrometers,tensile ductility,EXP,None,298.0,60.5,None,None,None,10.1016/j.msea.2019.01.112
+MPEA-6,FeCoNiCrTi0.2,FCC,CW + A,missed the ductility values, incorrect processing (from AC to CW + A), grain size to 51,tensile ductility,EXP,None,77.0,46.0,None,None,None,10.1016/j.actamat.2018.11.049
+SomeID-1,Ti30 Zr30 Hf16 Nb24,BCC,AC,None,tensile yield strength,EXP,None,298.0,720000000.0,None,Pa,F6,10.1016/j.actamat.2023.118728
+SomeID-2,Ti30 Zr30 Hf16 Nb24,BCC+BCC,AC+CR+A,20min at 900*C, nanoprecipitate strenghtening (see paper),tensile yield strength,EXP,None,298.0,800000000.0,None,Pa,F6,10.1016/j.actamat.2023.118728
+SomeID-3,Ti30 Zr30 Hf16 Nb24,BCC,AC+CR+A+A,20min at 900*C + 200h at 600*C,tensile yield strength,EXP,None,298.0,730000000.0,None,Pa,F6,10.1016/j.actamat.2023.118728
+SomeID-4,Ti30 Zr30 Hf16 Nb24,BCC,AC,None,tensile ductility,EXP,None,298.0,22.4,None,%,F6,10.1016/j.actamat.2023.118728
+SomeID-5,Ti30 Zr30 Hf16 Nb24,BCC+BCC,AC+CR+A,20min at 900*C, nanoprecipitate strenghtening (see paper),tensile ductility,EXP,None,298.0,34.0,None,%,F6,10.1016/j.actamat.2023.118728
+SomeID-6,Ti30 Zr30 Hf16 Nb24,BCC,AC+CR+A+A,20min at 900*C + 200h at 600*C,tensile ductility,EXP,None,298.0,25.6,None,%,F6,10.1016/j.actamat.2023.118728
