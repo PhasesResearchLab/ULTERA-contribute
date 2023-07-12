@@ -1,11 +1,11 @@
-#%%
+# %%
 import pandas as pd
 import sys
 import json
 import os
-from pprint import pprint
 
-def convert(datasheet:str):
+
+def convert(datasheet: str):
     '''This function converts an PyQAlloy-compliant Excel datasheet into a CSV file for the purpose of
     tracking changes in the data collection and curation, while preserving the original template/datasheet
     file along with its style and formatting. The CSV file is named after the original datasheet file, with
@@ -16,7 +16,7 @@ def convert(datasheet:str):
         datasheet: Path to PyQAlloy-compliant Excel datasheet file.
     '''
 
-    #Import metadata
+    # Import metadata
     print('Reading the metadata.')
     metaDF = pd.read_excel(datasheet,
                            usecols="A:F",
@@ -46,23 +46,21 @@ def convert(datasheet:str):
     parsed = df2.to_json(orient="split")
     labels = json.loads(parsed, strict=False)['columns']
     data = json.loads(parsed, strict=False)['data']
-    print(labels)
-    print(data)
-    print('Imported '+str(len(data))+' datapoints.')
 
-    with open(dataFileName+'.csv', 'w+') as outFile:
+    print('Imported ' + str(len(data)) + ' datapoints.')
+
+    with open(dataFileName + '.csv', 'w+') as outFile:
         # Write the metadata
         for line, val in metaData.items():
-            outFile.write(line+':,'+str(val)+'\n')
+            outFile.write(line + ':,' + str(val) + '\n')
         outFile.write('\n')
         # Write the data
-        outFile.write(','.join(labels)+'\n')
+        outFile.write(','.join(labels) + '\n')
         for line in data:
-            outFile.write(','.join(str(val) for val in line)+'\n')
+            outFile.write(','.join(str(val) for val in line) + '\n')
 
-        #for line in data:
+        print('Successfully converted ' + datasheet + ' to ' + dataFileName + '.csv\n')
 
-        print('Successfully converted '+datasheet+' to '+dataFileName+'.csv\n')
 
 def detectDatasheetsAndConvert(path: str):
     '''This function detects all PyQAlloy-compliant Excel datasheets in a directory and converts them into
@@ -75,15 +73,11 @@ def detectDatasheetsAndConvert(path: str):
     for file in os.listdir(path):
         if file.endswith('.xlsx'):
             if file not in ['template_v4.xlsx']:
-                print('Converting '+file)
-                convert(path+'/'+file)
+                print('Converting ' + file)
+                convert(path + '/' + file)
             else:
                 print('Skipping ' + file)
 
 
-
 if __name__ == '__main__':
     detectDatasheetsAndConvert(sys.argv[1])
-
-
-
