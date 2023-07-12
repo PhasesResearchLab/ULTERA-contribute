@@ -38,6 +38,18 @@ You pretty much only need to restructure your data into a spreadsheet. **Publish
    
 9. Let us know your data is ready! We will clone your forked repository as a submodule and automatically process the data into the ULTERA through [the pushing meta-repository (github.com/PhasesResearchLab/ULTERA-push)](https://github.com/PhasesResearchLab/ULTERA-push)
 
+## Fancy Stuff
+
+### Tracking changes in data while retaining Excel style and functions
+
+When publishing a dataset, one usually has to make a choice between storing it in either (a) plaintext formats, like TXT, CSV, and JSON, or (b) in one of the rich data formats, like Excel/Word Spreadsheet or table in PDF of a paper. 
+
+**plaintext** - The first option is typically preferred by scientists focused on the data as a training input for modeling efforts (whether covering simple statistics or fancy machine learning models) since it is usually (1) easier to digest by computer programs, (2) doesn't introduce any ambiguities on what is stored in it (all data is plain without, e.g., rounded numbers), (3) every change to the dataset can be tracked by git (either locally or through services like GitHub or GitLab) so that researcher know exact changes between data right now versus let's say 7 months earlier, and perhaps most significantly (4) can reference and compare datasets by commits thus allowing precise statements like _"V13 of the model used additional 5 yield stress data points and 17 hardness data points for alloys #3,27,79 while skipping 2 outliers (#111,112) we identified in May as coming from contaminated experiments"._
+
+**rich format** - The rich options like Excel spreadsheets are typically preferred by scientists, as they provide a number of conveniences. They (1) allow styling of the dataset, ranging from, e.g., customizable spreadsheet table column widths to make display much clearer to view, through the possibility of setting small fonts when describing data fields, to the automated highlighting of values that are outside of an accepted range. They also (2) allow one to have one column with data in original units and automatically convert them as needed to different ones on the fly, (3) format the displayed precision to the liking of the researcher or community while retaining full precision, and even (4) store images inside them for reference. However, the rich formats are usually binary and thus cannot be tracked by git (see plaintext advantages) beyond versioning them and commenting changes. This works for small modifications but quickly gets out of hand as the dataset matures and tens or hundreds of changes are made. 
+
+
+
 
 ## I want to contribute in the future, but I'm not ready to make it public yet
 
