@@ -34,7 +34,7 @@ def convert(datasheet: str):
     }
 
     # Logging progress into a CSV table
-    dataFileName = datasheet.replace('.xls', '').replace('.xlsx', '')
+    dataFileName = datasheet.replace('.xlsx', '').replace('.xls', '')
 
     # Import data
     print('Importing data.')
