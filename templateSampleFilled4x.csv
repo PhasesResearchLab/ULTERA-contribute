@@ -1,0 +1,17 @@
+Name:,Happy Researcher
+Email:,happy@psu.edu
+Direct Fetched:,T
+Hand Fetched:,T
+Comment:,None
+
+id/nickname,Composition,Structure,Processing,Material Comment,Name,Source,Property Parameters,Temperature [K],Value [SI],Uncertainty [SI],Unit [SI],Pointer,DOI
+1,Fe60 Ni20 Cr10 Zr10 ,BCC+FCC,HIP+A,None,UTS,EXP,None,298.0,750000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+2,Fe60 Ni10 Cr20 Zr10,BCC+FCC,HIP+A,None,UTS,EXP,None,298.0,650000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+3,Fe60 Ni10 Cr10 Zr20,3BCC+MC,HIP+A,None,UTS,EXP,None,298.0,700000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+4,Fe25 Ni25 Cr25 Zr25,BCT+laves,HIP+A,None,UTS,EXP,None,298.0,550000000.0,25000000.0,Pa,T7,10.1557/jmr.2018.153
+5,FeNiCrZr,BCC,AC,None,UTS,ML,None,298.0,580000000.0,50000000.0,Pa,T7,10.1557/jmr.2018.153
+6,Ti0.1 (ZrHfNb)0.3,FCC,AC,None,UTS,EMP,None,298.0,400000000.0,10000000.0,Pa,F4,10.1557/jmr.2018.154
+7,Fe0.60 Ni0.10 Cr0.10 Zr0.20,BCC+2?,SPS,None,UTS,THM,None,298.0,670000000.0,50000000.0,Pa,F4,10.1557/jmr.2018.155
+8,FeNiCrZr,?,AC,cast from 2000K,CreepRate,ML,MaxStress 80e6 Pa,298.0,1.23e-06,1e-08,s-1,T1,Sun_2022_CreepRatePredictions
+9,W90 Mo5 Ti5,3?+laves,SPS,None,None,None,None,None,None,None,None,None,None
+10,W100,?,SPS,None,None,None,None,None,None,None,None,None,None
