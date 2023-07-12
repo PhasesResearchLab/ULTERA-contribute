@@ -2,6 +2,8 @@
 import pandas as pd
 import sys
 import json
+import os
+from pprint import pprint
 
 def convert(datasheet:str):
     '''This function converts an PyQAlloy-compliant Excel datasheet into a CSV file for the purpose of
@@ -35,23 +37,53 @@ def convert(datasheet:str):
     dataFileName = datasheet.replace('.xls', '').replace('.xlsx', '')
 
     # Import data
-    print('\nImporting data.')
+    print('Importing data.')
     df2 = pd.read_excel(datasheet,
                         usecols="A:N",
                         nrows=20000,
                         skiprows=8)
-    result = df2.to_json(orient="records")
-    parsed = json.loads(result, strict=False)
-    print('Imported '+str(parsed.__len__())+' datapoints.\n')
+    # Convert the dataset
+    parsed = df2.to_json(orient="split")
+    labels = json.loads(parsed, strict=False)['columns']
+    data = json.loads(parsed, strict=False)['data']
+    print(labels)
+    print(data)
+    print('Imported '+str(len(data))+' datapoints.')
 
     with open(dataFileName+'.csv', 'w+') as outFile:
+        # Write the metadata
         for line, val in metaData.items():
             outFile.write(line+':,'+str(val)+'\n')
         outFile.write('\n')
-        outFile.write(df2.to_csv(index=False))
+        # Write the data
+        outFile.write(','.join(labels)+'\n')
+        for line in data:
+            outFile.write(','.join(str(val) for val in line)+'\n')
+
+        #for line in data:
+
+        print('Successfully converted '+datasheet+' to '+dataFileName+'.csv\n')
+
+def detectDatasheetsAndConvert(path: str):
+    '''This function detects all PyQAlloy-compliant Excel datasheets in a directory and converts them into
+    CSV files. It skips the empty template file (template_v4.xlsx).
+
+    Args:
+        path: Path to the directory containing PyQAlloy-compliant Excel datasheets.
+    '''
+
+    for file in os.listdir(path):
+        if file.endswith('.xlsx'):
+            if file not in ['template_v4.xlsx']:
+                print('Converting '+file)
+                convert(path+'/'+file)
+            else:
+                print('Skipping ' + file)
+
+
 
 if __name__ == '__main__':
-    convert(sys.argv[1])
+    detectDatasheetsAndConvert(sys.argv[1])
 
 
 
