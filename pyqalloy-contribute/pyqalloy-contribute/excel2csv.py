@@ -72,7 +72,7 @@ def detectDatasheetsAndConvert(path: str):
 
     for file in os.listdir(path):
         if file.endswith('.xlsx'):
-            if file not in ['template_v4.xlsx']:
+            if file not in ['template_v4.xlsx', 'template_v4_DatasetExample.xlsx']:
                 print('Converting ' + file)
                 convert(path + '/' + file)
             else:
