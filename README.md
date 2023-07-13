@@ -38,7 +38,20 @@ You pretty much only need to restructure your data into a spreadsheet. **Publish
    
 9. Let us know your data is ready! We will clone your forked repository as a submodule and automatically process the data into the ULTERA through [the pushing meta-repository (github.com/PhasesResearchLab/ULTERA-push)](https://github.com/PhasesResearchLab/ULTERA-push)
 
-## Fancy Stuff
+## Fancy Stuff Through Actions
+
+### Enabling GitHub Actions
+
+All of the functionalities below rely on automated "actions" that happen at predetermined events (e.g. Excel2CSV converter will run every time you push a modification to your dataset; either a single commit of a set of them) and **should just work out-of-the box if enabled (easy 30s job)**. You will just wait to see the results in a minute or so or track progress under `Actions` tab in the top GitHub menu.
+
+To enable them, you will only need to:
+1. Go to: Settings > Actions (General) > Actions permissions
+2. Select "Allow all Actions and Reusable Workflows"
+3. Save and refresh the page
+4. Scroll down to "Workflow permissions" and select "Read and write permissions"
+5. Save and refresh the page
+
+Now, you should be good to go! You can verify everything work by going to the aforementioned `Actions` tab in the top GitHub menu.
 
 ### Tracking changes in data while retaining Excel style and functions
 
@@ -47,7 +60,6 @@ When publishing a dataset, one usually has to make a choice between storing it i
 **plaintext** - The first option is typically preferred by scientists focused on the data as a training input for modeling efforts (whether covering simple statistics or fancy machine learning models) since it is usually (1) easier to digest by computer programs, (2) doesn't introduce any ambiguities on what is stored in it (all data is plain without, e.g., rounded numbers), (3) every change to the dataset can be tracked by git (either locally or through services like GitHub or GitLab) so that researcher know exact changes between data right now versus let's say 7 months earlier, and perhaps most significantly (4) can reference and compare datasets by commits thus allowing precise statements like _"V13 of the model used additional 5 yield stress data points and 17 hardness data points for alloys #3,27,79 while skipping 2 outliers (#111,112) we identified in May as coming from contaminated experiments"._
 
 **rich format** - The rich options like Excel spreadsheets are typically preferred by scientists, as they provide a number of conveniences. They (1) allow styling of the dataset, ranging from, e.g., customizable spreadsheet table column widths to make display much clearer to view, through the possibility of setting small fonts when describing data fields, to the automated highlighting of values that are outside of an accepted range. They also (2) allow one to have one column with data in original units and automatically convert them as needed to different ones on the fly, (3) format the displayed precision to the liking of the researcher or community while retaining full precision, and even (4) store images inside them for reference. However, the rich formats are usually binary and thus cannot be tracked by git (see plaintext advantages) beyond versioning them and commenting changes. This works for small modifications but quickly gets out of hand as the dataset matures and tens or hundreds of changes are made. 
-
 
 
 
