@@ -1,0 +1,7 @@
+pandas
+pymatgen
+pymongo
+dnspython
+openpyxl
+sigfig
+fire
