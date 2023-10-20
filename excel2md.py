@@ -120,21 +120,14 @@ def compStr2compList(s: str):
                 compObj.__len__()]
     except Exception as e:
         print(e)
-        raise ValueError("Warning! Can't parse composition!: "+s)
+        raise ValueError(f"Can't parse composition!: {s} --> {e}")
 
 # Convert data into ULTERA Database datapoint
 def datapoint2entry(dataP, printOuts=True):
-    entry = {'error': {'bool': False, 'errMessage': ''}, 
-             'material' : {}, 
-             'property' : {}, 
-             'reference' : {}}
+    entry = {'error': False, 'material' : {}, 'property' : {}, 'reference' : {}}
 
     # composition
-    try:
-        compList = compStr2compList(dataP['Composition'])
-    except Exception as e:
-        print(str(e))
-        raise ValueError("Could not parse the composition! Required for upload. Aborting upload!")
+    compList = compStr2compList(dataP['Composition'])
     
     # material
     entry['material'].update({
@@ -224,19 +217,26 @@ def datapoint2entry(dataP, printOuts=True):
                         entry['reference'].update({
                             'pointer': dataP['Pointer']})
             else:
-                del entry['reference']
-                if printOuts:
-                    print('No reference data!')
+                entry['property'].update({
+                'name' : '',
+                'value': ''})
+                print('No reference data!')
+    
+                # del entry['reference']
+                # if printOuts:
+                #     print('No reference data!')
 
     return entry
 
 # Convert a pair of metadata and data into ULTERA Database datapoint
-def datapoint2entryFail(dataP, printOuts=True):
-    entry = {'error': {}, 'material' : {}, 'property' : {}, 'reference' : {}}
+def datapoint2entryFail(dataP, errorMessage, printOuts=True):
+    entry = {'error': False, 'material' : {}, 'property' : {}, 'reference' : {}}
 
-    entry['error'].update({'bool': True, 'errMessage': 'Could not parse the composition!'})
+    entry['error'] = errorMessage
 
-    entry['material'].update({'rawFormula': dataP['Composition']})
+    entry['material'].update({
+        'rawFormula': dataP['Composition'], 
+        'percentileFormula': ''})
 
     if 'Name' in dataP:
         if dataP['Name'] is not None:
@@ -244,12 +244,18 @@ def datapoint2entryFail(dataP, printOuts=True):
                 'name' : dataP['Name'],
                 'value': float(dataP['Value [SI]'])})
     else:
-            entry['property'].update({
-                'name' : '',
-                'value': ''})
-    
+        entry['property'].update({
+        'name' : '',
+        'value': ''})
+        if printOuts:
+            print('No property data or error occured!')
+
+        # del entry['property']
+        # if printOuts:
+        #     print('No property data or error occurred!')
+
     return entry
-            
+     
 
 # function to generate 2d array of [[raw formula],[percentile formula],[property name],[property value]]
 # for the materials in dataset
@@ -268,40 +274,28 @@ def arrayGenerator(parsedData):
         try:
             dataset.append(datapoint2entry(datapoint))
         except Exception as e:
-            print(str(e))
-            dataset.append(datapoint2entryFail(datapoint))
-            print("Could not parse the composition! Required for upload. Aborting upload!")
+            errorMessage = str(e)
+            print(errorMessage)
+            dataset.append(datapoint2entryFail(datapoint, errorMessage))
 
     def adjustLen(strArray: List[str]) -> List[str]:
         max_str_length = max([len(f) for f in strArray])
-        formulas = [f'{formula:=<{max_str_length}}' for formula in strArray]
-        # adjFormulas = [formula.replace('=', '&nbsp;') for formula in formulas]
-        # return adjFormulas
-        return formulas
+        return [f'{formula:=<{max_str_length}}'.replace('=', ' ') for formula in strArray]
+        # return formulas
 
     for data in dataset:
-        if data['error']['bool'] is True:
-            raw_formulas.append(data['material']['rawFormula'])
-            percentile_formulas.append('')
+        err_messages.append(data['error'])
+        raw_formulas.append(data['material']['rawFormula'])
+        percentile_formulas.append(data['material']['percentileFormula'])
+
+        if data['error'] or 'property' not in data:
             prop_names.append('')
             prop_values.append('')
-            err_messages.append(data['error']['errMessage'])
         else:
-            err_messages.append('')
-            if 'material' in data:
-                raw_formulas.append(data['material']['rawFormula'])
-                percentile_formulas.append(data['material']['percentileFormula'])
-            else:
-                raw_formulas.append('')
-                percentile_formulas.append('')
+            prop_names.append(data['property']['name'])
+            prop_values.append(data['property']['value'])
 
-            if 'property' in data:
-                prop_names.append(data['property']['name'])
-                prop_values.append(data['property']['value'])
-            else:
-                prop_names.append('')
-                prop_values.append(0)
-    
+
     raw_formulas = adjustLen(raw_formulas)
     percentile_formulas = adjustLen(percentile_formulas)
 
@@ -313,7 +307,7 @@ def arrayGenerator(parsedData):
             validations.append(err_message)
             markers.append('🔴')
         else:
-            if prop == '' and value == 0:
+            if prop == '' or value == '':
                 validations.append('No property data!')
                 markers.append('🟠')
             elif value >= value_condition and prop == property_condition:
@@ -324,7 +318,7 @@ def arrayGenerator(parsedData):
                 markers.append('🟢')
 
     return [
-        f'- {marker}  {raw_formula} | {percentile_formula} | {prop_name} | {validation} \n'
+        f'| {marker} | {raw_formula} | {percentile_formula} | {prop_name} | {validation} |\n'
         for marker, raw_formula, percentile_formula, prop_name, validation 
         in zip(markers, raw_formulas, percentile_formulas, prop_names, validations)
     ]
@@ -339,8 +333,9 @@ if __name__ == '__main__':
     ### Logging progress into Markdown file
     MdLogger = open('PyQAlloyReport'+dateString+'.md', "w")
     MdLogger.write('\n# PyQAlloyReport '+dateString+'\n\n')
-    MdLogger.write('**Legend:** \n\n🟢 Successful Upload / 🟠 Abnormal Upload / 🔴 Failed Upload\n\n')
-    MdLogger.write('## Raw Formula  |  Percentile Formula  |  Property  |  Comment \n')
+    MdLogger.write('**Legend:** &nbsp; 🟢 Successful Upload / 🟠 Abnormal Upload / 🔴 Failed Upload\n\n')
+    MdLogger.write('| | Raw Formula | Percentile Formula | Property | Comment |\n')
+    MdLogger.write('|:--- |:--- |:--- |:--- |:--- |\n')
 
     # Import data
     print('\nImporting data.')
@@ -353,4 +348,12 @@ if __name__ == '__main__':
     results = arrayGenerator(parsed)
     for result in results:
         MdLogger.write(result)
+    MdLogger.write('\n')
 
+
+# narrow monospace font
+# Adam's Hint:) - GitHub Markdown render font change
+# add color to flowchart
+# fix / shorten error message implementation (no need for bool)
+# look into splitting excel2md into multiple python scripts in a directory
+# ^ look as what pysipfenn does with the descriptors
