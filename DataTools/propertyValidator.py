@@ -1,9 +1,5 @@
 # separate script to validate property data
 
-# import yaml
-# with open('propertyBounds.yaml') as pb:
-#     propConditions = yaml.safe_load(pb)
-
 from pprint import pprint
 from pathlib import Path
 from ruamel.yaml import YAML
@@ -12,7 +8,6 @@ from typing import List
 path = Path('/workspaces/ULTERA-contribute/DataTools/propertyValidations.yaml')
 yaml = YAML(typ='safe')
 propValidations = yaml.load(path)
-# pprint(propValidations)
 
 def propValidator(parsedDataset):
     prop_values = []
@@ -27,7 +22,6 @@ def propValidator(parsedDataset):
         max_str_length = max([len(f) for f in strArray])
         return [f'{formula:=<{max_str_length}}'.replace('=',' ') for formula in strArray]
         # return formulas
-    # pprint(parsedDataset)
 
     for data in parsedDataset:
         err_messages.append(data['error'])
@@ -59,9 +53,6 @@ def propValidator(parsedDataset):
         maxWarningList.append(propDict['maxWarning'])
         minWarningList.append(propDict['minWarning'])
 
-    # pprint(nameList)
-    # pprint(abbrevList)
-
     propValidationList = [nameList, abbrevList, maxErrorList, minErrorList,
                             maxWarningList, minWarningList]
 
@@ -73,31 +64,29 @@ def propValidator(parsedDataset):
             validations.append('No property data!')
             markers.append('🟠')
         else:
-            for nameIndex in range(len(nameList)):
-                # pprint(nameList[nameIndex])
-                if (prop == nameList[nameIndex]):
-                    propIndex = nameIndex
-                elif abbrevList[nameIndex] is not None:
-                    if (prop == abbrevList[nameIndex][0]
-                    or prop == abbrevList[nameIndex][1]):
+            for name in nameList:
+                nameIndex = nameList.index(name)
+                if ((abbrevList[nameIndex] is not None) and ((prop == abbrevList[nameIndex][0])
+                    or (prop == abbrevList[nameIndex][1]))):
                         propIndex = nameIndex
+                elif (prop == nameList[nameIndex]):
+                    propIndex = nameIndex
                 else:
                     propIndex = None
                     # validations.append('Uncommon property!')
                     #  # use green or orange ?
                     # markers.append('🟠')
-            
-            # pprint(propIndex)
                     
             if propIndex is not None:
                 boundList = []
-                for fieldIndex in range(len(propValidationList)):
+                for field in propValidationList:
+                    fieldIndex = propValidationList.index(field)
                     # skip over name and abbrevs fields
                     if fieldIndex < 1:
                         continue
                     else:
                         boundList.append(propValidationList[fieldIndex][propIndex])
-                        # pprint(boundList)
+                        print(boundList)
         
                 # maxError check
                 if (boundList[2] is not None and value > boundList[2]):
@@ -124,7 +113,11 @@ def propValidator(parsedDataset):
                 # use green or orange ?
                 markers.append('🟠')
 
-
+    return [
+        f'| {marker} | {raw_formula} | {percentile_formula} | {prop_name} | {validation} |\n'
+        for marker, raw_formula, percentile_formula, prop_name, validation
+        in zip(markers, raw_formulas, percentile_formulas, prop_names, validations)
+    ]
 
 
 
@@ -160,14 +153,6 @@ def propValidator(parsedDataset):
                 #     validations.append('Uncommon property!')
                 #     # use green or orange ?
                 #     markers.append('🟠')
-
-    return [
-        f'| {marker} | {raw_formula} | {percentile_formula} | {prop_name} | {validation} |\n'
-        for marker, raw_formula, percentile_formula, prop_name, validation
-        in zip(markers, raw_formulas, percentile_formulas, prop_names, validations)
-    ]
-
-
 
     # create yaml file for properties, abbrevs, and upper lower bounds
     # ^ similar to adam example sent in email
