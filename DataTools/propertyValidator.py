@@ -35,6 +35,8 @@ def propValidator(parsedDataset):
             prop_names.append(data['property']['name'])
             prop_values.append(data['property']['value'])
 
+    pprint(prop_names)
+
     raw_formulas = adjustLen(raw_formulas)
     percentile_formulas = adjustLen(percentile_formulas)
 
@@ -53,6 +55,9 @@ def propValidator(parsedDataset):
         maxWarningList.append(propDict['maxWarning'])
         minWarningList.append(propDict['minWarning'])
 
+    pprint(nameList)
+    pprint(abbrevList)
+
     propValidationList = [nameList, abbrevList, maxErrorList, minErrorList,
                             maxWarningList, minWarningList]
 
@@ -66,11 +71,13 @@ def propValidator(parsedDataset):
         else:
             for name in nameList:
                 nameIndex = nameList.index(name)
-                if ((abbrevList[nameIndex] is not None) and ((prop == abbrevList[nameIndex][0])
-                    or (prop == abbrevList[nameIndex][1]))):
-                        propIndex = nameIndex
-                elif (prop == nameList[nameIndex]):
+                if (prop == name):
                     propIndex = nameIndex
+                    break
+                elif (abbrevList[nameIndex] is not None):
+                    if ((prop == abbrevList[nameIndex][0]) or (prop == abbrevList[nameIndex][1])):
+                        propIndex = nameIndex
+                        break
                 else:
                     propIndex = None
                     # validations.append('Uncommon property!')
@@ -119,65 +126,3 @@ def propValidator(parsedDataset):
         in zip(markers, raw_formulas, percentile_formulas, prop_names, validations)
     ]
 
-
-
-            # for propDict in conditionList:
-            #     # test = f"Testing: {propDict} "
-            #     # print(test)
-            #     if propDict['abbrevs'] is None:
-            #         abbrevList = [' ', ' ']
-            #     else:
-            #         abbrevList = propDict['abbrevs']
-                
-                # print(abbrevList)
-                # print(abbrevList[0])
-                # print(abbrevList[1])
-
-                # if prop == abbrevList[0] or prop == abbrevList[1] or prop == propDict['name']:
-                #     if propDict['maxError'] is not None and value > propDict['maxError']:
-                #         validations.append(f"Unreasonably high {prop} value of {value}")
-                #         markers.append('🔴')
-                #     elif propDict['minError'] is not None and value < propDict['minError']:
-                #         validations.append(f"Unreasonably low {prop} value of {value}")
-                #         markers.append('🔴')
-                #     elif propDict['maxWarning'] is not None and value > propDict['maxWarning']: 
-                #         validations.append(f"High {prop} value of {value}")
-                #         markers.append('🟠')
-                #     elif propDict['minWarning'] is not None and value < propDict['minWarning']:
-                #         validations.append(f"Low {prop} value of {value}")
-                #         markers.append('🟠')
-                #     else:
-                #         validations.append('')
-                #         markers.append('🟢')
-                # else:
-                #     validations.append('Uncommon property!')
-                #     # use green or orange ?
-                #     markers.append('🟠')
-
-    # create yaml file for properties, abbrevs, and upper lower bounds
-    # ^ similar to adam example sent in email
-    # ^ error different from warning
-    # ^ ex: can't have compressive ducility > 100%, so error
-    #       compressive ductility warning would be around > 85%
-    # ^^^ so need to consider physical limitations like this for each property
-    # create at least 3-4 property distributions in mongodb
-    # ^ use these for bounds in yaml file
-    # if no abbrev or bound, use null or none in place
-
-
-
-                # if propDict['maxError'] is not None and value > propDict['maxError']:
-                #     validations.append(f"Unreasonably high {prop} value of {value}")
-                #     markers.append('🔴')
-                # elif propDict['minError'] is not None and value < propDict['minError']:
-                #     validations.append(f"Unreasonably low {prop} value of {value}")
-                #     markers.append('🔴')
-                # elif propDict['maxWarning'] is not None and value > propDict['maxWarning']: 
-                #     validations.append(f"High {prop} value of {value}")
-                #     markers.append('🟠')
-                # elif propDict['minWarning'] is not None and value < propDict['minWarning']:
-                #     validations.append(f"Low {prop} value of {value}")
-                #     markers.append('🟠')
-                # else:
-                #     validations.append('')
-                #     markers.append('🟢')
