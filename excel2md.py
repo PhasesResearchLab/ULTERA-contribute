@@ -12,6 +12,8 @@ import fire
 from pprint import pprint
 from typing import List
 
+import DataTools.propertyValidator as pv
+
 print('Running!')
 
 # Process name unifier
@@ -255,73 +257,16 @@ def datapoint2entryFail(dataP, errorMessage, printOuts=True):
         #     print('No property data or error occurred!')
 
     return entry
-     
 
-# function to generate 2d array of [[raw formula],[percentile formula],[property name],[property value]]
-# for the materials in dataset
+# dataset = []
+# for datapoint in parsed:
+#     try:
+#         dataset.append(datapoint2entry(datapoint))
+#     except Exception as e:
+#         errorMessage = str(e)
+#         print(errorMessage)
+#         dataset.append(datapoint2entryFail(datapoint, errorMessage))
 
-def arrayGenerator(parsedData):
-    prop_values = []
-    prop_names = []
-    raw_formulas = []
-    percentile_formulas = []
-    err_messages = []
-    validations = []
-    dataset = []
-    markers = []
-
-    for datapoint in parsedData:
-        try:
-            dataset.append(datapoint2entry(datapoint))
-        except Exception as e:
-            errorMessage = str(e)
-            print(errorMessage)
-            dataset.append(datapoint2entryFail(datapoint, errorMessage))
-
-    def adjustLen(strArray: List[str]) -> List[str]:
-        max_str_length = max([len(f) for f in strArray])
-        return [f'{formula:=<{max_str_length}}'.replace('=', ' ') for formula in strArray]
-        # return formulas
-
-    for data in dataset:
-        err_messages.append(data['error'])
-        raw_formulas.append(data['material']['rawFormula'])
-        percentile_formulas.append(data['material']['percentileFormula'])
-
-        if data['error'] or 'property' not in data:
-            prop_names.append('')
-            prop_values.append('')
-        else:
-            prop_names.append(data['property']['name'])
-            prop_values.append(data['property']['value'])
-
-
-    raw_formulas = adjustLen(raw_formulas)
-    percentile_formulas = adjustLen(percentile_formulas)
-
-    property_condition = 'UTS'
-    value_condition = 6e8
-
-    for prop, value, err_message in zip(prop_names, prop_values, err_messages):
-        if err_message:
-            validations.append(err_message)
-            markers.append('🔴')
-        else:
-            if prop == '' or value == '':
-                validations.append('No property data!')
-                markers.append('🟠')
-            elif value >= value_condition and prop == property_condition:
-                validations.append(f"High {property_condition} value is {value}")
-                markers.append('🟠')
-            else:
-                validations.append('')
-                markers.append('🟢')
-
-    return [
-        f'| {marker} | {raw_formula} | {percentile_formula} | {prop_name} | {validation} |\n'
-        for marker, raw_formula, percentile_formula, prop_name, validation 
-        in zip(markers, raw_formulas, percentile_formulas, prop_names, validations)
-    ]
 
 if __name__ == '__main__':
     datasheet = 'template_v4_DatasetExample.xlsx'
@@ -344,8 +289,18 @@ if __name__ == '__main__':
     parsed = json.loads(result, strict=False)
     print('Imported '+str(parsed.__len__())+' datapoints.\n')
 
+    dataset = []
+    for datapoint in parsed:
+        try:
+            dataset.append(datapoint2entry(datapoint))
+        except Exception as e:
+            errorMessage = str(e)
+            print(errorMessage)
+            dataset.append(datapoint2entryFail(datapoint, errorMessage))
+
     ## Convert data into database datapoints and upload
-    results = arrayGenerator(parsed)
+    results = pv.propValidator(dataset)
+    # results = arrayGenerator(parsed)
     for result in results:
         MdLogger.write(result)
     MdLogger.write('\n')
@@ -357,3 +312,6 @@ if __name__ == '__main__':
 # fix / shorten error message implementation (no need for bool)
 # look into splitting excel2md into multiple python scripts in a directory
 # ^ look as what pysipfenn does with the descriptors
+
+# create separate script for propertyValidator function
+# straightforward, if property == __ , bounds == this, check if value within bounds

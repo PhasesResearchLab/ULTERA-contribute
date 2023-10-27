@@ -1,0 +1,74 @@
+
+propertyConditions: 
+- name: ultimate compressive strength
+  abbrevs: [UCS, ucs]
+  maxError: null
+  minError: 0
+  maxWarning: 4e9
+  minWarning: 1e8
+- name: ultimate tensile strength
+  abbrevs: [UTS, uts]
+  maxError: null
+  minError: 0
+  maxWarning: 3e9
+  minWarning: 1e8
+- name: compressive yield stress
+  abbrevs: [CYS, cys]
+  maxError: null
+  minError: 0
+  maxWarning: 2e9
+  minWarning: 1e8
+- name: tensile yield stress
+  abbrevs: [TYS, tys]
+  maxError: null
+  minError: 0
+  maxWarning: 2e9
+  minWarning: null
+- name: hardness
+  abbrevs: null
+  maxError: null
+  minError: 0
+  maxWarning: 30e9
+  minWarning: null
+- name: creep rate
+  abbrevs: [CR, cr]
+  maxError: null
+  minError: 0
+  maxWarning: 250e9
+  minWarning: 15e9
+- name: compressive ductility
+  abbrevs: null
+  maxError: 100
+  minError: 0
+  maxWarning: 90
+  minWarning: null
+- name: tensile ductility
+  abbrevs: null
+  maxError: null
+  minError: 0
+  maxWarning: 300
+  minWarning: null
+- name: coefficient of thermal expansion
+  abbrevs: [CTE, cte]
+  maxError: null
+  minError: 0
+  maxWarning: 28e6
+  minWarning: 5e6
+- name: d parameter
+  abbrevs: null
+  maxError: null
+  minError: 0
+  maxWarning: 4.3
+  minWarning: 1.5
+- name: youngs modulus
+  abbrevs: null
+  maxError: null
+  minError: 0
+  maxWarning: 250e9
+  minWarning: 10e9
+- name: density
+  abbrevs: null
+  maxError: null
+  minError: 0
+  maxWarning: 14
+  minWarning: 1
