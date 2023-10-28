@@ -80,9 +80,6 @@ def propValidator(parsedDataset):
                         break
                 else:
                     propIndex = None
-                    # validations.append('Uncommon property!')
-                    #  # use green or orange ?
-                    # markers.append('🟠')
                     
             if propIndex is not None:
                 boundList = []
