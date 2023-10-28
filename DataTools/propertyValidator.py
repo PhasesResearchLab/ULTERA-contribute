@@ -1,6 +1,6 @@
 # separate script to validate property data
 
-from pprint import pprint
+# from pprint import pprint
 from pathlib import Path
 from ruamel.yaml import YAML
 from typing import List
@@ -35,11 +35,10 @@ def propValidator(parsedDataset):
             prop_names.append(data['property']['name'])
             prop_values.append(data['property']['value'])
 
-    pprint(prop_names)
-
     raw_formulas = adjustLen(raw_formulas)
     percentile_formulas = adjustLen(percentile_formulas)
 
+    # make lists of propValidations.yaml fields
     conditionList = propValidations['propertyConditions']
     nameList = []
     abbrevList = []
@@ -55,9 +54,6 @@ def propValidator(parsedDataset):
         maxWarningList.append(propDict['maxWarning'])
         minWarningList.append(propDict['minWarning'])
 
-    pprint(nameList)
-    pprint(abbrevList)
-
     propValidationList = [nameList, abbrevList, maxErrorList, minErrorList,
                             maxWarningList, minWarningList]
 
@@ -69,6 +65,7 @@ def propValidator(parsedDataset):
             validations.append('No property data!')
             markers.append('🟠')
         else:
+            # check if given prop name matches any prop name in propValidations.yaml
             for name in nameList:
                 nameIndex = nameList.index(name)
                 if (prop == name):
@@ -81,6 +78,7 @@ def propValidator(parsedDataset):
                 else:
                     propIndex = None
                     
+            # if prop name does match, make list of property bounds and compare value to bounds
             if propIndex is not None:
                 boundList = []
                 for field in propValidationList:
