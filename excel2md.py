@@ -223,10 +223,6 @@ def datapoint2entry(dataP, printOuts=True):
                 'name' : '',
                 'value': ''})
                 print('No reference data!')
-    
-                # del entry['reference']
-                # if printOuts:
-                #     print('No reference data!')
 
     return entry
 
@@ -257,16 +253,6 @@ def datapoint2entryFail(dataP, errorMessage, printOuts=True):
         #     print('No property data or error occurred!')
 
     return entry
-
-# dataset = []
-# for datapoint in parsed:
-#     try:
-#         dataset.append(datapoint2entry(datapoint))
-#     except Exception as e:
-#         errorMessage = str(e)
-#         print(errorMessage)
-#         dataset.append(datapoint2entryFail(datapoint, errorMessage))
-
 
 if __name__ == '__main__':
     datasheet = 'template_v4_DatasetExample.xlsx'
@@ -300,18 +286,6 @@ if __name__ == '__main__':
 
     ## Convert data into database datapoints and upload
     results = pv.propValidator(dataset)
-    # results = arrayGenerator(parsed)
     for result in results:
         MdLogger.write(result)
     MdLogger.write('\n')
-
-
-# narrow monospace font
-# Adam's Hint:) - GitHub Markdown render font change
-# add color to flowchart
-# fix / shorten error message implementation (no need for bool)
-# look into splitting excel2md into multiple python scripts in a directory
-# ^ look as what pysipfenn does with the descriptors
-
-# create separate script for propertyValidator function
-# straightforward, if property == __ , bounds == this, check if value within bounds

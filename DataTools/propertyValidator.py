@@ -1,6 +1,3 @@
-# separate script to validate property data
-
-# from pprint import pprint
 from pathlib import Path
 from ruamel.yaml import YAML
 from typing import List
