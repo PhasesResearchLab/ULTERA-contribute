@@ -1,0 +1,36 @@
+name: postcommit
+
+on: [push]
+
+jobs:
+  run:
+    name: postcommit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install pandas openpyxl
+
+      - name: Run excel2csv
+        run: |
+          python .github/workflows/excel2csv.py .
+
+      - name: Run csv2readme
+        run: |
+          python .github/workflows/csv2readme.py .
+
+      - name: Commit changes with Add & Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: '(automatic) Action for Data Tracking'
+          add: |
+            .github/excel2csv/*.csv
+            README.md
