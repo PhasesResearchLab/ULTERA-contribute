@@ -17,4 +17,4 @@ ULTERA-contribute fork URL: https://github.com/yourUserId/ULTERA-contribute-your
 
 After updating your fork URL, click on the green `Submit new issue` button below to confirm your submission.
 
-The [@PhasesResearchLab/ULTERA](https://github.com/orgs/PhasesResearchLab/teams/ULTERA) team will soon get a notification of your contributions and automatically analyze and process the data into the ULTERA database.
+The [@PhasesResearchLab/ULTERA](https://github.com/orgs/PhasesResearchLab/teams/ULTERA) team will receive a notification of your contributions and will automatically analyze and process the data into the ULTERA database.
