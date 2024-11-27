@@ -42,6 +42,10 @@ def update_readme():
                 comments.append(current_comment)
                 line_counts.append(line_count)
 
+    if not files:
+        print("No CSV files found. Skipping README update.")
+        return
+
     readme = ''
     
     if files: 
