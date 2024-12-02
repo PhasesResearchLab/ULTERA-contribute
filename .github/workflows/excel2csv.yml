@@ -40,7 +40,19 @@ jobs:
             METADATA_PREFIX="\`metadata\`, "
           fi
 
-          DOIS=$(git diff --cached -U0 | awk '/^@@/{p=1;if($3>6){p=1}else{p=0}}/^[+-]/{if(p==1)print}' | grep -v '^+++\|^---' | awk -F',' '{print "`" $NF "`"}' | sort -u | tr '\n' ' ')
+          # Get DOIs from non-metadata changes
+          DOIS=$(git diff --cached -U0 | awk '
+            /^@@/ {
+              split($3, a, ",");  # Split the line number spec
+              lineno = substr(a[1], 2);  # Remove the + and get the number
+            }
+            /^\+/ {
+              if (lineno > 6) {  # Only process lines after metadata
+                print $0
+              }
+              lineno++
+            }
+          ' | grep -v '^+++' | awk -F',' '{print "`" $NF "`"}' | sort -u | tr '\n' ' ')
           echo "dois=$METADATA_PREFIX$DOIS" >> $GITHUB_OUTPUT
 
       - name: Commit changes with Add & Commit
