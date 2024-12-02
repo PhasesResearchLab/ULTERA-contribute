@@ -28,11 +28,24 @@ jobs:
       - name: Calculate diff
         id: diff
         run: |
-          git add *.csv
+          if ! compgen -G "*.csv" > /dev/null; then
+            echo "diff_count=0" >> $GITHUB_OUTPUT
+            echo "dois=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          git add *.csv || true
+          if [ -z "$(git diff --cached)" ]; then
+            echo "diff_count=0" >> $GITHUB_OUTPUT
+            echo "dois=" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
           DIFF_COUNT=$(git diff --cached --numstat | awk '{sum += $1 + $2} END {print sum}')
           echo "diff_count=$DIFF_COUNT" >> $GITHUB_OUTPUT
 
       - name: Check for changes in the metadata of uploaded files and then extract changing DOIs and add them to a set
+        if: steps.diff.outputs.diff_count != '0'
         id: dois
         run: |
           METADATA_PREFIX=""
