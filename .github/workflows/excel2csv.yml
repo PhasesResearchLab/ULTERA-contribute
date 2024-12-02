@@ -25,8 +25,38 @@ jobs:
         run: |
           python pyqalloy-contribute/pyqalloy-contribute/excel2csv.py .
 
+      - name: Calculate diff
+        id: diff
+        run: |
+          git add *.csv
+          DIFF_COUNT=$(git diff --cached --numstat | awk '{sum += $1 + $2} END {print sum}')
+          echo "diff_count=$DIFF_COUNT" >> $GITHUB_OUTPUT
+
+      - name: Check for changes in the metadata of uploaded files and then extract changing DOIs and add them to a set
+        id: dois
+        run: |
+          METADATA_PREFIX=""
+          if git diff --cached -U0 | grep '^@@' | awk -F'[,+ ]' '{if ($3 <= 6) exit 0; else exit 1}'; then
+            METADATA_PREFIX="\`metadata\`, "
+          fi
+
+          # Get DOIs from non-metadata changes
+          DOIS=$(git diff --cached -U0 | awk '
+            /^@@/ {
+              split($3, a, ",");  # Split the line number spec
+              lineno = substr(a[1], 2);  # Remove the + and get the number
+            }
+            /^\+/ {
+              if (lineno > 6) {  # Only process lines after metadata
+                print $0
+              }
+              lineno++
+            }
+          ' | grep -v '^+++' | awk -F',' '{print "`" $NF "`"}' | sort -u | tr '\n' ' ')
+          echo "dois=$METADATA_PREFIX$DOIS" >> $GITHUB_OUTPUT
+
       - name: Commit changes with Add & Commit
         uses: EndBug/add-and-commit@v9
         with:
-          message: '(automatic) excel2csv Action for Data Tracking'
+          message: '(auto) Data Tracking Action changed `${{ steps.diff.outputs.diff_count }}` lines / data points [Changed DOIs: ${{ steps.dois.outputs.dois }}]'
           add: '*.csv'
