@@ -32,11 +32,16 @@ jobs:
           DIFF_COUNT=$(git diff --cached --numstat | awk '{sum += $1 + $2} END {print sum}')
           echo "diff_count=$DIFF_COUNT" >> $GITHUB_OUTPUT
 
-      - name: Extract changing DOIs and add them to a set
+      - name: Check for changes in the metadata of uploaded files and then extract changing DOIs and add them to a set
         id: dois
         run: |
-          DOIS=$(git diff --cached -U0 | grep '^[+-]' | grep -v '^+++\|^---' | awk -F',' '{print "`" $NF "`"}' | sort -u | tr '\n' ' ')
-          echo "dois=$DOIS" >> $GITHUB_OUTPUT
+          METADATA_PREFIX=""
+          if git diff --cached -U0 | grep '^@@' | awk -F'[,+ ]' '{if ($3 <= 6) exit 0; else exit 1}'; then
+            METADATA_PREFIX="\`metadata\`, "
+          fi
+
+          DOIS=$(git diff --cached -U0 | awk '/^@@/{p=1;if($3>6){p=1}else{p=0}}/^[+-]/{if(p==1)print}' | grep -v '^+++\|^---' | awk -F',' '{print "`" $NF "`"}' | sort -u | tr '\n' ' ')
+          echo "dois=$METADATA_PREFIX$DOIS" >> $GITHUB_OUTPUT
 
       - name: Commit changes with Add & Commit
         uses: EndBug/add-and-commit@v9
