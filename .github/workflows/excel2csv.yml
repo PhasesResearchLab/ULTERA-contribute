@@ -32,8 +32,14 @@ jobs:
           DIFF_COUNT=$(git diff --cached --numstat | awk '{sum += $1 + $2} END {print sum}')
           echo "diff_count=$DIFF_COUNT" >> $GITHUB_OUTPUT
 
+      - name: Extract changing DOIs and add them to a set
+        id: dois
+        run: |
+          DOIS=$(git diff --cached -U0 | grep '^[+-]' | grep -v '^+++\|^---' | awk -F',' '{print "`" $NF "`"}' | sort -u | tr '\n' ' ')
+          echo "dois=$DOIS" >> $GITHUB_OUTPUT
+
       - name: Commit changes with Add & Commit
         uses: EndBug/add-and-commit@v9
         with:
-          message: '(automatic) excel2csv Action for Data Tracking (${{ steps.diff.outputs.diff_count }} lines / data points have changed)'
+          message: '(auto) Data Tracking Action changed ${{ steps.diff.outputs.diff_count }} lines / data points [Changed DOIs: ${{ steps.diff.outputs.dois }}]'
           add: '*.csv'
