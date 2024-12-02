@@ -7,3 +7,4 @@ Comment:,None
 id/nickname,Composition,Structure,Processing,Material Comment,Name,Source,Property Parameters,Temperature [K],Value [SI],Uncertainty [SI],Unit [SI],Pointer,DOI
 None,FeAlNi,BCC,None,nice,None,None,None,None,None,None,None,P3,10.1557/jmr.2018.153
 None,NiAlFe,FCC,None,None,None,None,None,None,None,None,None,P4,10.1557/jmr.2018.153
+None,BNiCZr,None,None,None,None,None,None,None,None,None,None,None,11.212/acta.mat.2023.2141234
