@@ -25,8 +25,15 @@ jobs:
         run: |
           python pyqalloy-contribute/pyqalloy-contribute/excel2csv.py .
 
+      - name: Calculate diff
+        id: diff
+        run: |
+          git add *.csv
+          DIFF_COUNT=$(git diff --cached --numstat | awk '{sum += $1 + $2} END {print sum}')
+          echo "diff_count=$DIFF_COUNT" >> $GITHUB_OUTPUT
+
       - name: Commit changes with Add & Commit
         uses: EndBug/add-and-commit@v9
         with:
-          message: '(automatic) excel2csv Action for Data Tracking'
+          message: '(automatic) excel2csv Action for Data Tracking (${{ steps.diff.outputs.diff_count }} lines / data points have changed)'
           add: '*.csv'
