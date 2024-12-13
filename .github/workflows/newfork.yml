@@ -1,0 +1,19 @@
+name: Fork Notification
+on: fork
+
+jobs:
+  create-fork-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create fork notification issue
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          title: New Repository Fork Created
+          body: |
+            A new fork of this repository has been created by @${{ github.actor }}
+            
+            @PhasesResearchLab/ultera-maintainers
