@@ -7,13 +7,13 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Create fork notification issue
-        uses: JasonEtco/create-an-issue@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/github-script@v6
         with:
-          title: New Repository Fork Created
-          body: |
-            A new fork of this repository has been created by @${{ github.actor }}
-            
-            @PhasesResearchLab/ultera-maintainers
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'New Contribute Fork Created',
+              body: `A new fork of this repository has been created by @${context.actor}\n\n@PhasesResearchLab/ultera-maintainers`,
+              labels: ['new fork']
+            });
