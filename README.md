@@ -50,8 +50,10 @@ To enable them, you will only need to:
 3. Save and refresh the page
 4. Scroll down to "Workflow permissions" and select "Read and write permissions"
 5. Save and refresh the page
+6. Go to the aforementioned `Actions` tab in the *top* GitHub menu (next to Issues Pull requests)
+7. Make sure they are enabled. You may be asked to verify you understand forked workflows will be run by clicking a green button.
 
-Now, you should be good to go! You can verify everything work by going to the aforementioned `Actions` tab in the top GitHub menu.
+Now, you should be good to go! Enjoy changes tracking over Excel spreadsheets.
 
 ### Tracking changes in data while retaining Excel style and functions
 
